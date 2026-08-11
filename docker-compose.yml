@@ -1,0 +1,47 @@
+services:
+  bot:
+    build: .
+    env_file: .env
+    environment:
+      BOT_DATABASE_URL: postgresql+asyncpg://botkit:botkit@postgres:5432/botkit
+      BOT_REDIS_URL: redis://redis:6379/0
+    # Migrations run before the bot starts, in the same image, so the schema can
+    # never be older than the code talking to it.
+    command: sh -c "alembic upgrade head && botkit"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: botkit
+      POSTGRES_PASSWORD: botkit
+      POSTGRES_DB: botkit
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U botkit"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    # FSM state is worth persisting: without it a restart drops every user
+    # mid-form, which is the exact thing Redis was added to prevent.
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pgdata:
+  redisdata:

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 200" width="580" height="200" role="img" aria-label="botkit — an aiogram 3 Telegram bot starter with FSM forms, i18n, roles, rate limiting and a safe broadcast.">
+  <title>botkit</title>
+  <defs>
+    <radialGradient id="bkGlow" cx="80%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#2CA5E0" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#2CA5E0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="580" height="200" rx="12" fill="#11161D" stroke="#1F2833" stroke-width="2"/>
+  <rect width="580" height="200" rx="12" fill="url(#bkGlow)"/>
+  <rect x="0" y="0" width="4" height="200" rx="2" fill="#2CA5E0"/>
+
+  <g font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace">
+    <text x="28" y="42" font-size="19" font-weight="700" fill="#E6EDF3">botkit</text>
+    <rect x="108" y="26" width="86" height="20" rx="10" fill="#2CA5E0" fill-opacity="0.13" stroke="#1E6FA0"/>
+    <text x="151" y="40" font-size="10" fill="#2CA5E0" text-anchor="middle">aiogram 3</text>
+
+    <text x="28" y="70" font-size="12.5" fill="#8B98A8">A Telegram bot starter where the boring parts</text>
+    <text x="28" y="90" font-size="12.5" fill="#8B98A8">are already correct.</text>
+
+    <!-- The FSM, including the escape hatch. Most examples draw the happy path
+         and omit /cancel, which is the state users actually reach. -->
+    <g transform="translate(28 118)">
+      <rect x="0" y="0" width="62" height="26" rx="6" fill="#161C25" stroke="#2CA5E0" stroke-opacity="0.6"/>
+      <text x="31" y="17" font-size="10" fill="#2CA5E0" text-anchor="middle">category</text>
+
+      <path d="M 66 13 L 80 13" stroke="#2C3846" stroke-width="1.5"/>
+      <rect x="84" y="0" width="62" height="26" rx="6" fill="#161C25" stroke="#2CA5E0" stroke-opacity="0.6"/>
+      <text x="115" y="17" font-size="10" fill="#2CA5E0" text-anchor="middle">message</text>
+
+      <path d="M 150 13 L 164 13" stroke="#2C3846" stroke-width="1.5"/>
+      <rect x="168" y="0" width="62" height="26" rx="6" fill="#161C25" stroke="#34D399" stroke-opacity="0.7"/>
+      <text x="199" y="17" font-size="10" fill="#34D399" text-anchor="middle">confirm</text>
+
+      <!-- The escape hatch, routed above the caption so the dashes never cross
+           the words they are labelling. -->
+      <path d="M 115 30 L 115 40 L 4 40 L 4 30" fill="none" stroke="#F87171"
+            stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <path d="M 199 30 L 199 46 L 4 46 L 4 40" fill="none" stroke="#F87171"
+            stroke-opacity="0.45" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="0" y="62" font-size="9.5" fill="#F87171">/cancel — from any state</text>
+    </g>
+
+    <g transform="translate(372 112)">
+      <text x="0" y="8" font-size="10" fill="#5A6675">INCLUDED</text>
+      <text x="0" y="28" font-size="11" fill="#8B98A8">i18n <tspan fill="#5A6675">with a CI parity check</tspan></text>
+      <text x="0" y="46" font-size="11" fill="#8B98A8">roles <tspan fill="#5A6675">that compare, not list</tspan></text>
+      <text x="0" y="64" font-size="11" fill="#8B98A8">broadcast <tspan fill="#5A6675">paced at 25/s</tspan></text>
+    </g>
+  </g>
+</svg>

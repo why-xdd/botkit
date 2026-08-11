@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Test
+        run: pytest -q
+
+      # A missing key ships as ⟨key⟩ to whichever users speak that language,
+      # and a renamed placeholder raises at runtime. Both are cheap to catch
+      # here and expensive to find in production.
+      - name: Locale parity
+        run: |
+          python - <<'PY'
+          import json, re, sys
+          from pathlib import Path
+
+          catalogues = {p.stem: json.loads(p.read_text(encoding="utf-8"))
+                        for p in Path("locales").glob("*.json")}
+          reference = catalogues["en"]
+          fields = lambda s: set(re.findall(r"\{(\w+)\}", s))
+          failed = False
+
+          for locale, catalogue in catalogues.items():
+              missing = set(reference) - set(catalogue)
+              extra = set(catalogue) - set(reference)
+              if missing:
+                  print(f"{locale}: missing {sorted(missing)}"); failed = True
+              if extra:
+                  print(f"{locale}: unknown keys {sorted(extra)}"); failed = True
+              for key, text in catalogue.items():
+                  if key in reference and fields(text) != fields(reference[key]):
+                      print(f"{locale}:{key}: placeholders differ from en"); failed = True
+
+          print(f"checked {len(catalogues)} locales, {len(reference)} keys")
+          sys.exit(1 if failed else 0)
+          PY
+
+      - name: Migrations apply and roll back
+        if: matrix.python-version == '3.12'
+        env:
+          BOT_DATABASE_URL: sqlite+aiosqlite:///ci.db
+        run: |
+          alembic upgrade head
+          alembic downgrade base
+          alembic upgrade head

@@ -68,7 +68,7 @@ what real forms need and examples skip:
 - **`/start` clears state**, because that is what people press when they are
   lost.
 
-<img src="https://raw.githubusercontent.com/why-xdd/botkit/main/docs/conversation.png" alt="The feedback flow: category buttons, the message prompt, a confirmation screen, and the thank-you" width="560"/>
+<img src="https://raw.githubusercontent.com/why-xdd/botkit/main/docs/conversation.png" alt="The feedback flow: category buttons, the message prompt, a confirmation screen, and the thank-you" width="100%"/>
 
 *Rendered from `locales/en.json` — the strings are the ones the bot sends,
 read from the catalogue rather than retyped.*
@@ -107,13 +107,10 @@ body. There is no path where the work happens before someone remembers to check.
 
 ### A broadcast that behaves
 
-```
-Done.
+<img src="https://raw.githubusercontent.com/why-xdd/botkit/main/docs/admin.png" alt="The admin panel: role counts, a broadcast preview naming the audience size, and a delivery report of delivered, blocked and failed" width="100%"/>
 
-Delivered: 12309
-Blocked the bot: 168
-Failed: 3
-```
+*The admin side of the same catalogue: the panel, the preview that names its
+audience before anything is sent, and the report of what actually landed.*
 
 - Paced at 25 messages/second, under Telegram's ~30/s ceiling, leaving headroom
   for the traffic the bot is still serving.

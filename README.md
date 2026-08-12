@@ -68,6 +68,11 @@ what real forms need and examples skip:
 - **`/start` clears state**, because that is what people press when they are
   lost.
 
+<img src="https://raw.githubusercontent.com/why-xdd/botkit/main/docs/conversation.png" alt="The feedback flow: category buttons, the message prompt, a confirmation screen, and the thank-you" width="560"/>
+
+*Rendered from `locales/en.json` — the strings are the ones the bot sends,
+read from the catalogue rather than retyped.*
+
 ### i18n that fails visibly
 
 A missing key renders as `⟨settings.title⟩`, never as a blank string. A blank
